@@ -1,30 +1,23 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import TaskItem from './TaskItem';
+import { Task } from '../types';
 
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-  reminder?: Date;
-}
-
-interface Props {
+interface TaskListProps {
   tasks: Task[];
-  onToggle: (id: number) => void;
+  onDelete: (id: string) => void;
+  onEdit: (task: Task) => void;
 }
 
-const TaskList: React.FC<Props> = ({ tasks, onToggle }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onEdit }) => {
   return (
-    <View>
-      <FlatList
-        data={tasks}
-        renderItem={({ item }) => (
-          <TaskItem task={item} onToggle={onToggle} />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </View>
+    <FlatList
+      data={tasks}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <TaskItem task={item} onDelete={onDelete} onEdit={onEdit} />
+      )}
+    />
   );
 };
 

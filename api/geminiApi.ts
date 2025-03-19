@@ -1,24 +1,18 @@
-// geminiApi.ts
-const GEMINI_API_KEY = 'AIzaSyDLeezSy4a5GIG7vi-41KbCnR0zCS1O5tY';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export async function chamarGemini(prompt: string): Promise<string> {
+const API_KEY = 'YOUR_API_KEY'; // Substitua pela sua chave de API
+
+const genAI = new GoogleGenerativeAI(API_KEY);
+
+export async function generateContent(prompt: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-        }),
-      }
-    );
-
-    const data = await response.json();
-    const resposta = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Resposta não disponível.';
-    return resposta;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response;
   } catch (error) {
-    console.error('Erro na API Gemini:', error);
-    return 'Erro ao chamar a API.';
+    console.error('Erro ao chamar a API Gemini:', error);
+    return null;
   }
 }
