@@ -1,17 +1,29 @@
 import React from 'react';
-import { View, FlatList } from 'react-native';
-import TaskItem from './TaskItem';
+import { View, Text, StyleSheet } from 'react-native';
+import { Checkbox } from 'react-native-paper';
 
-const TaskList = ({ tasks, onToggle }) => {
+const TaskItem = ({ task, onToggle }) => {
   return (
-    <FlatList
-      data={tasks}
-      renderItem={({ item }) => (
-        <TaskItem task={item} onToggle={onToggle} />
-      )}
-      keyExtractor={(item) => item.id.toString()}
-    />
+    <View style={styles.container}>
+      <Checkbox
+        status={task.completed ? 'checked' : 'unchecked'}
+        onPress={() => onToggle(task.id)}
+      />
+      <Text style={styles.text}>{task.text}</Text>
+    </View>
   );
 };
 
-export default TaskList;
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  text: {
+    marginLeft: 10,
+    fontSize: 16,
+  },
+});
+
+export default TaskItem;

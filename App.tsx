@@ -1,20 +1,24 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
-import SettingsScreen from './screens/SettingsScreen';
+import { View, FlatList } from 'react-native';
+import TaskItem from './components/TaskItem';
+interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+}
 
-const Stack = createStackNavigator();
-
-const App = () => {
+const TaskList = ({ tasks, onToggle }: { tasks: Task[]; onToggle: (id: number) => void }) => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View>
+    <FlatList
+      data={tasks}
+      renderItem={({ item }) => (
+        <TaskItem task={item} onToggle={onToggle} />
+      )}
+      keyExtractor={(item) => item.id.toString()}
+    />
+    </View>
   );
 };
 
-export default App;
+export default TaskList;

@@ -35,4 +35,22 @@ const styles = StyleSheet.create({
   },
 });
 
+const handleGeminiInteraction = async () => {
+  const prompt = 'Sugira 3 tarefas para minha lista de tarefas.';
+  const response = await generateContent(prompt);
+  if (response) {
+    // Adicione as tarefas sugeridas à lista
+    const newTasks = response.split('\n').map((task, index) => ({
+      id: tasks.length + index + 1,
+      text: task,
+      completed: false,
+    }));
+    setTasks((prevTasks) => [...prevTasks, ...newTasks]);
+  }
+};
+
+<Button mode="contained" onPress={handleGeminiInteraction}>
+  Sugestões de Tarefas
+</Button>
+
 export default HomeScreen;
