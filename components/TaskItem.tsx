@@ -2,7 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 
-const TaskItem = ({ task, onToggle }) => {
+interface TaskItemProps {
+  task: {
+    id: number;
+    text: string;
+    completed: boolean;
+  };
+  onToggle: (id: number) => void;
+}
+
+const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle }) => {
   return (
     <View style={styles.container}>
       <Checkbox
